@@ -1,34 +1,4 @@
-﻿@model IEnumerable<BibleStudyGuide.Models.Category>
-
-@{
-    ViewBag.Title = "Verses";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h2>Studies already done</h2>
-@if (User.Identity.IsAuthenticated)
-{
-    @*<h4 class="btn btn-info" style="color:red;"></h4>*@
-
-    <ul class="breadcrumb" style="width:20%">
-        <li>@Html.ActionLink("Messages >>", "MyMessages")</li>
-        <h6>Only when authenticated!</h6>
-        @*<li class="active">Library</li>*@
-    </ul>
-
-
-
-    
-}
-<br />
-<br />
-
-
-
-
-
-
-
+﻿@model BibleStudyGuide.Models.ListsViews
 
 <table class="table table-striped table-hover ">
     <thead>
@@ -61,7 +31,7 @@
         </tr>
     </thead>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.AllMessages)
     {
         <tr>
             <td style="text-align:center;">
@@ -74,13 +44,13 @@
                 @Html.DisplayFor(modelItem => item.ChapterNumber)
             </td>
             <td style="text-align:center;">
-                @Html.DisplayFor(modelItem => item.VerseNumber)
+                @*@Html.DisplayFor(modelItem => item.VerseNumber)*@
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VerseContent)
+                @*@Html.DisplayFor(modelItem => item.VerseContent)*@
             </td>
             <td style="text-align:center;">
-                @Html.DisplayFor(modelItem => item.Category1)
+                @*@Html.DisplayFor(modelItem => item.Category1)*@
             </td>
             <td style="text-align:center;">
                 @Html.DisplayFor(modelItem => item.Date)
@@ -90,26 +60,9 @@
                 <td style="width:10%; text-align:center;">
                     @Html.ActionLink("Edit", "ListsViews", new { AuthorName = item.AuthorName, chapterNumber = item.ChapterNumber })
                     |
-                    @Html.ActionLink("Delete", "DeleteVerse", new { id = item.CategoryID })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.MessageID})
                 </td>
             }
         </tr>
     }
 </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

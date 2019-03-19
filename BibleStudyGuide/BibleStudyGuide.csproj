@@ -275,6 +275,10 @@
     <Content Include="Views\Home\MyStudy2.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Home\Delete.cshtml" />
+    <Content Include="Views\Home\_PartialViewMessage.cshtml" />
+    <Content Include="Views\Home\_PartialMessageView.cshtml" />
+    <Content Include="Views\Home\MyMessages.cshtml" />
+    <Content Include="Views\Home\DeleteMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

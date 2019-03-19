@@ -38,7 +38,7 @@ namespace BibleStudyGuide.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Dante Coelho Cerqueira Santos";
 
             return View();
         }
@@ -52,6 +52,12 @@ namespace BibleStudyGuide.Controllers
         {
             var categories = db.Categories.OrderBy(c => c.Date).ToList();
             return View(categories);
+        }
+
+        public ActionResult MyMessages()
+        {
+            var messages = db.Messages.OrderBy(c => c.Date).ToList();
+            return View(messages);
         }
 
         public ActionResult AuthorsIndex(string AuthorName)
@@ -168,7 +174,7 @@ namespace BibleStudyGuide.Controllers
             {
                 throw e;
             }
-            return Redirect("MyStudy");
+            return Redirect("MyStudy2");
         }
 
         public ActionResult StudyView(string AuthorName, int chapterNumber) {
@@ -179,34 +185,37 @@ namespace BibleStudyGuide.Controllers
 
         }
 
-        public ActionResult Edit(int? id)
+        
+        ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Message message = db.Messages.Find(id);
+            if (message == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            ViewBag.MessageId = new SelectList(db.Messages, "MessageId", "Message1", message.MessageID);
+            return View(message);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryId")] Category category)
+        public ActionResult Edit([Bind(Include = "MessageId")] Message message)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(category).State = EntityState.Modified;
+                db.Entry(message).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("MyStudy2");
             }
-            return View(category);
+            return View(message);
         }
 
-        public ActionResult Delete(int? id)
+
+        public ActionResult DeleteVerse(int? id)
         {
             if (id == null)
             {
@@ -220,12 +229,38 @@ namespace BibleStudyGuide.Controllers
             return View(category);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteVerse")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmedVerse(int id)
         {
             Category category = db.Categories.Find(id);
             db.Categories.Remove(category);
+            db.SaveChanges();
+            return RedirectToAction("MyStudy2");
+        }
+
+
+
+        public ActionResult DeleteMessage(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Message message = db.Messages.Find(id);
+            if (message == null)
+            {
+                return HttpNotFound();
+            }
+            return View(message);
+        }
+
+        [HttpPost, ActionName("DeleteMessage")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmedMessage(int id)
+        {
+            Message message = db.Messages.Find(id);
+            db.Messages.Remove(message);
             db.SaveChanges();
             return RedirectToAction("MyStudy2");
         }

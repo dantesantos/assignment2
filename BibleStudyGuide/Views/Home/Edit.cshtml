@@ -1,9 +1,8 @@
-﻿@model BibleStudyGuide.Models.Category
+﻿@model BibleStudyGuide.Models.Message
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string action = "";
 }
 
 <h2>Edit</h2>
@@ -16,16 +15,9 @@
         <h4>Category</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.CategoryID)
+        @Html.HiddenFor(model => model.MessageID)
 
 
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AuthorID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.AuthorID)
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.AuthorName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -49,46 +41,12 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.VerseNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Message1, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.VerseNumber)
+                @Html.EditorFor(model => model.Message1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Message1, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.VerseContent, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.VerseContent)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Category1, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label id="label"></label>
-                @Html.TextBoxFor(model => model.Category1, new { @id = "textValue" })
-                <select class="form-control" id="drop" name="Category1" onchange="myFunction('textValue','drop');">
-                    <option>Select Category</option>
-                    <option value="Command">  Command</option>
-                    <option value="Principle">Principle</option>
-                    <option value="Promise">  Promise</option>
-                    <option value="N/A">      N/A</option>
-                </select>
-
-                @*@Html.DropDownListFor(model => model.Category1,
-               new List<SelectListItem>
-               {
-                   new SelectListItem { Text = "Select Category" },
-                   new SelectListItem { Value = "Command" , Text = "Command" },
-                   new SelectListItem { Value = "Principle" , Text = "Principle" },
-                   new SelectListItem { Value = "Promise" , Text = "Promise" },
-                   new SelectListItem { Value = "N/A" , Text = "N/A" }
-               }, new {@id = "drop", @class = "form-control", @onchange= "myFunction('textValue','drop');" })*@
-
-            </div>
-
-        </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -108,10 +66,10 @@
 <div>
     @Html.ActionLink("Back to List", "MyStudy2")
 </div>
-<script>
+@*<script>
     function myFunction(id, drop) {
         document.getElementById(id).value = document.getElementById(drop).value;
 
     }
 
-</script>
+</script>*@

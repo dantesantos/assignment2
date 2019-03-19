@@ -1,0 +1,36 @@
+﻿@model BibleStudyGuide.Models.Message
+
+
+
+
+    @*<tr>
+        <td style="text-align:center;">
+            @Html.DisplayFor(modelItem => item.AuthorName)
+        </td>
+        <td style="text-align:center;">
+            @Html.DisplayFor(modelItem => item.BookName)
+        </td>
+        <td style="text-align:center;">
+            @Html.DisplayFor(modelItem => item.ChapterNumber)
+        </td>
+        <td style="text-align:center;">
+            @Html.DisplayFor(modelItem => item.VerseNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VerseContent)
+        </td>
+        <td style="text-align:center;">
+            @Html.DisplayFor(modelItem => item.Category1)
+        </td>
+        <td style="text-align:center;">
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <td style="width:10%; text-align:center;">
+                @Html.ActionLink("Edit", "ListsViews", new { AuthorName = item.AuthorName, chapterNumber = item.ChapterNumber })
+                |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID })
+            </td>
+        }
+    </tr>*@
