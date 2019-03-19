@@ -58,11 +58,11 @@ namespace BibleStudyGuide
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "860193159293-u2td1c2me5bvsd4de5k4gka7iaog7lgl.apps.googleusercontent.com",
+                ClientSecret = "GwPtxpbtLuPBh2CHNopG1J0N"
+            });
         }
     }
 }

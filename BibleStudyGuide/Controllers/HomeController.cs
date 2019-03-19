@@ -9,8 +9,11 @@ using System.Web.Mvc;
 
 namespace BibleStudyGuide.Controllers
 {
+    //https://localhost:44366/
     //https://bootswatch.com/3/spacelab/
-    [Authorize]
+    
+    //[Authorize]
+    [RequireHttps]
     public class HomeController : Controller
     {
         private DbBible db = new DbBible();
