@@ -1,0 +1,251 @@
+﻿@model BibleStudyGuide.Models.ListsViews
+
+@{
+    ViewBag.Title = "ListsViews";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int o = 0;
+    int authorID = 0;
+    int chapterNumber = 0;
+    //I know...probably there is a easier way to declare those variables...I didn't have time to search because I was focusing on other functionalities...sorry...
+    string nameOfAuthorID = "message" + "_AuthorID";
+    string idOfAuthorID = "message" + "_AuthorID";
+    string idOfAuthorName = "message" + "_AuthorName";
+    string nameOfAuthorName = "message" + "_AuthorName";
+    string idOfBookName = "message" + "_BookName";
+    string nameOfBookName = "message" + "_BookName";
+    string idOfChapterNumber = "message" + "_ChapterNumber";
+    string nameOfChapterNumber = "message" + "_ChapterNumber";
+    string idOfDate = "message" + "_Date";
+    string nameOfDate = "message" + "_Date";
+    string newName = "";
+    string newID = "";
+    string newIdDrop = "";
+    string Date = DateTime.Now.ToString("MM/dd/yyyy");
+    string date = "";
+    string authorName = "";
+    string bookName = "";
+    int verseNumber = 0;
+    string verseContent = "";
+    string action = "";
+    string freezeCategory = "";
+    string checkMark = "";
+}
+
+<h2>
+    @ViewBag.AuthorName @if (ViewBag.chapterNumber != 0)
+    {
+        @ViewBag.chapterNumber;
+    }
+</h2>
+
+<br />
+
+<div>
+    @foreach (var item in Model.AllAuthors)
+    {
+        if (item.AuthorName == ViewBag.AuthorName)
+        {
+            <p>@item.Description</p>
+            @*@Html.DisplayFor(f => item.Description)*@
+            ViewBag.AuthorID = item.AuthorID;
+        }
+    }
+
+
+    @foreach (var item1 in Model.AllAuthors)
+    {
+        foreach (var item2 in Model.AllChapters)
+        {
+            if (item1.AuthorID == item2.AuthorID && item1.AuthorName == ViewBag.AuthorName)
+            {
+                <a href="@Url.Action("ListsViews", "Home", new { AuthorName = ViewBag.AuthorName, chapterNumber = item2.ChapterNumber })" class="btn btn-primary btn-lg">@item2.ChapterNumber</a>
+                authorName = ViewBag.AuthorName;
+            }
+        }
+    }
+</div>
+
+<br />
+@if (ViewBag.chapterNumber == 0)
+{
+    <p class="text-warning">Choose one of the chapters above.</p>
+}
+else
+{
+    <div>
+        @*@using (Html.BeginForm("ListsViews", "Home", FormMethod.Post))
+        {*@
+        <h4>
+            <span class="label label-info">
+                @DateTime.Now.ToString("MM/dd/yyyy")
+            </span>
+        </h4>
+        <div id="mmmessage"></div>
+
+        
+
+            <table class="table table-striped table-hover ">
+                <thead>
+                    <tr>
+                        <th style="text-align:center; width:5%;">Verse Number</th>
+                        <th style="width:auto;">Content</th>
+                        <th style="width:15%; text-align:center;">Category</th>
+                        <th style="width:15%; text-align:center;">Status</th>
+                        @*<th style="width:15%; text-align:center;">Action</th>*@
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @foreach (var item1 in Model.AllVerses)
+                    {
+                        if (item1.ChapterNumber == ViewBag.chapterNumber && item1.AuthorID == ViewBag.AuthorID)
+                        {
+                            o += 1;
+                            newName = newID = "category" + o.ToString();
+                            newIdDrop = "drop" + o.ToString();
+                            authorID = @item1.AuthorID;
+                            authorName = ViewBag.AuthorName;
+                            bookName = @item1.BookName;
+                            chapterNumber = @item1.ChapterNumber;
+                            date = @Date;
+                            verseNumber = @item1.VerseNumber;
+                            verseContent = @item1.VerseContent;
+                            freezeCategory = "element" + o.ToString();
+                            checkMark = "checkMark" + o.ToString();
+                            action = "this.form.submit(); selectOption('" + freezeCategory + "','" + newIdDrop + "'); checkMark('" + checkMark + "');";
+                            
+
+
+                                <tr>
+
+                                @using (Html.BeginForm("ListsViews", "Home",
+                                new
+                                {
+                                    authorName = ViewBag.AuthorName,
+                                    chapterNumber = ViewBag.chapterNumber
+                                    //,
+                                    //status = ViewBag.status,
+                                    //category = ViewBag.category
+                                }, FormMethod.Post))
+                            {
+
+
+
+
+                                    @* Verse Number *@
+                                    <td style="text-align:center;" id=@newID>@item1.VerseNumber</td>
+                                    @Html.HiddenFor(model => model.VerseNumber, new { id = @newID, Value = @item1.VerseNumber, name = @newName })
+                                    @* Verse Content *@
+                                    <td>@item1.VerseContent</td>
+                                    @Html.HiddenFor(model => model.VerseContent, new { id = @newID, Value = @item1.VerseContent, name = @newName })
+                                    <td style="text-align:center;" id=@freezeCategory>
+                                        @* Dropdown list with the CATEGORY *@
+                                        @Html.DropDownListFor(model => model.Category,
+                                                                new List<SelectListItem>
+                                                                {
+                                           new SelectListItem { Text = "Select Category" },
+                                           new SelectListItem { Value = "Command" , Text = "Command" },
+                                           new SelectListItem { Value = "Principle" , Text = "Principle" },
+                                           new SelectListItem { Value = "Promise" , Text = "Promise" },
+                                           new SelectListItem { Value = "N/A" , Text = "N/A" }
+                                                                }, new { @id = newIdDrop, @class = "form-control", @onchange = action })
+
+
+
+                                    </td>
+                                    <td style="text-align:center;"><div id=@checkMark>Not Saved</div></td>
+                                    @*<td style="text-align:center;"><input type="submit" value="Submit" class="btn btn-block btn-primary" /></td>*@
+                                
+                                @*Author ID*@
+                                @Html.HiddenFor(model => model.AuthorID, new { id = @newID, Value = @item1.AuthorID, name = @newName });
+                                @*Author Name*@
+                                @Html.HiddenFor(model => model.AuthorName, new { id = @newID, Value = authorName, name = @newName });
+                                @*Book Name*@
+                                @Html.HiddenFor(model => model.BookName, new { id = @newID, Value = @item1.BookName, name = @newName });
+                                @*Chapter Number*@
+                                @Html.HiddenFor(model => model.ChapterNumber, new { id = @newID, Value = @item1.ChapterNumber, name = @newName });
+                                @*Date*@
+                                @Html.HiddenFor(model => model.Date, new { id = @newID, Value = Date, name = @newName });
+                                @*Status*@
+                                @Html.HiddenFor(model => model.Status, new { id = @newID, Value = "true", name = @newName });
+                                }
+                                
+                                </tr>
+                            
+                        }
+                    }
+                </tbody>
+
+            </table>
+
+
+        @using (Html.BeginForm("SaveMessage", "Home", new { authorName = ViewBag.AuthorName, chapterNumber = ViewBag.chapterNumber }, FormMethod.Post))
+        {
+            <fieldset style="width: 100%;">
+                <div class="form-group">
+                    <label class="control-label" for="inputDefault">Message from God to me</label><br />
+                    <div class="col-lg-10">
+                        @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @rows = "4", @cols = "5000" })
+                        @*Author ID*@
+                        @Html.HiddenFor(model => model.AuthorID, new { id = idOfAuthorID, Value = authorID, name = nameOfAuthorID })
+                        @*Author Name*@
+                        @Html.HiddenFor(model => model.AuthorName, new { id = idOfAuthorName, Value = authorName, name = nameOfAuthorName })
+                        @*Book Name*@
+                        @Html.HiddenFor(model => model.BookName, new { id = idOfBookName, Value = bookName, name = nameOfBookName })
+                        @*Chapter Number*@
+                        @Html.HiddenFor(model => model.ChapterNumber, new { id = idOfChapterNumber, Value = chapterNumber, name = nameOfChapterNumber })
+                        @*Date*@
+                        @Html.HiddenFor(model => model.Date, new { id = idOfDate, Value = date, name = nameOfDate })
+                        @*<textarea class="form-control" rows="3" id="textArea"></textarea>*@
+                        <span class="help-block">What do you feel God wants to say to you after today's study?</span>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="myButtonClass"><input id="mybuttonID" class="btn btn-success" name="submitButton" type="submit" value="Submit" /></div>
+        }
+
+    </div>
+}
+
+<script>
+    //function made to turn the dropdownlist to a plain text
+    function selectOption(id, drop) {
+        document.getElementById(id).innerText = document.getElementById(drop).value;
+
+    }
+    
+    //function used to insert the check mark when the line is saved
+    function checkMark(id) {
+        document.getElementById(id).innerHTML = "";
+
+        var img = new Image();
+        var div = document.getElementById(id);
+
+        img.onload = function () {
+            div.appendChild(img);
+        };
+
+        img.src = '/Content/Images/checkMarkImage.png'
+        
+    }
+
+    
+</script>
+
+@*Style related to the check mark inside the table nd the submit button on the botton*@
+<style>
+    div img {
+        height: 35px;
+    }
+
+    .myButtonClass {
+        text-align: center;
+    }
+
+    #mybuttonID {
+        top: 50%;
+        margin-bottom: 0%;
+    }
+</style>
+@*<td><input class="btn btn-success" name="submitButton" type="submit" value="Next" /></td>*@

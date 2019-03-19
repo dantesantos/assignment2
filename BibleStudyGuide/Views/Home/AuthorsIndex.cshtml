@@ -1,0 +1,17 @@
+﻿@model IEnumerable<BibleStudyGuide.Models.Author>
+
+@{
+    ViewBag.Title = ViewBag.AuthorName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.AuthorName</h2>
+<br />
+@foreach (var item in Model)
+{
+    if (item.AuthorName == ViewBag.AuthorName)
+    {
+        //@Html.DisplayFor(modelItem => item.Description)
+        <p>@item.Description</p>
+    }
+}
