@@ -26,13 +26,13 @@ namespace BibleStudyGuide.Tests.Controllers
         }
 
         [TestMethod]
-        public void MyStudy()
+        public void MyStudy2()
         {
             // Arrange
             HomeController controller = new HomeController();
 
             // Act
-            ViewResult result = controller.MyStudy() as ViewResult;
+            ViewResult result = controller.MyStudy2() as ViewResult;
 
             // Assert
             Assert.AreEqual("Your application description page.", result.ViewBag.Message);

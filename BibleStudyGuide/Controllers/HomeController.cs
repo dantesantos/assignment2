@@ -1,13 +1,16 @@
 ﻿using BibleStudyGuide.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
 namespace BibleStudyGuide.Controllers
 {
     //https://bootswatch.com/3/spacelab/
+    [Authorize]
     public class HomeController : Controller
     {
         private DbBible db = new DbBible();
@@ -15,11 +18,22 @@ namespace BibleStudyGuide.Controllers
         {            
             return View();
         }
-        public ActionResult MyStudy()
+        public ActionResult MyStudy(string AuthorName)
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.AuthorName = AuthorName;
+            
+            Data myData = new Data();
+            ListsViews myList = new ListsViews
+            {
+                AllAuthors = myData.GetAllAuthors(),
+                AllBooks = myData.GetAllBooks(),
+                AllChapters = myData.GetAllChapters(),
+                AllVerses = myData.GetAllVerses(),
+                AllMessages = myData.GetAllMessages(),
+                AllVerseCategories = myData.GetAllVerseCategories()
+            };
 
-            return View();
+            return View(myList);
         }
 
         public ActionResult Contact()
@@ -32,6 +46,12 @@ namespace BibleStudyGuide.Controllers
         public ActionResult Create()
         {
             return View();
+        }
+
+        public ActionResult MyStudy2()
+        {
+            var categories = db.Categories.OrderBy(c => c.Date).ToList();
+            return View(categories);
         }
 
         public ActionResult AuthorsIndex(string AuthorName)
@@ -151,11 +171,63 @@ namespace BibleStudyGuide.Controllers
             return Redirect("MyStudy");
         }
 
-        public ActionResult ExportData(string AuthorName, int chapterNumber) {
-            ViewBag.AuthorName = AuthorName;
-            ViewBag.chapterNumber = chapterNumber;
+        public ActionResult StudyView(string AuthorName, int chapterNumber) {
+            //ViewBag.AuthorName = AuthorName;
+            //ViewBag.chapterNumber = chapterNumber;
+
             return View();
 
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Category category = db.Categories.Find(id);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "CategoryId")] Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(category).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("MyStudy2");
+            }
+            return View(category);
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Category category = db.Categories.Find(id);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Category category = db.Categories.Find(id);
+            db.Categories.Remove(category);
+            db.SaveChanges();
+            return RedirectToAction("MyStudy2");
         }
     }
 }

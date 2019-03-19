@@ -1,0 +1,79 @@
+﻿@model IEnumerable<BibleStudyGuide.Models.Category>
+
+@{
+    ViewBag.Title = "MyStudy2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MyStudy2</h2>
+
+    <h4>Message</h4>
+    <hr />
+
+
+    <table class="table table-striped table-hover ">
+        <thead>
+            <tr>
+                <th style="text-align:center; width:5%;">
+                    Author Name
+                </th>
+                <th style="text-align:center; width:5%;">
+                    Book Name
+                </th>
+                <th style="text-align:center; width:5%;">
+                    Chapter Number
+                </th>
+                <th style="text-align:center; width:5%;">
+                    Verse Number
+                </th>
+                <th style="width:auto;">
+                    Verse Content
+                </th>
+                <th style="width:5%; text-align:center;">
+                    Category
+                </th>
+                <th style="width:5%; text-align:center;">
+                    Date
+                </th>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <th style="width:10%; text-align:center;">Actions</th>
+                }
+            </tr>
+        </thead>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="text-align:center;">
+                    @Html.DisplayFor(modelItem => item.AuthorName)
+                </td>
+                <td style="text-align:center;">
+                    @Html.DisplayFor(modelItem => item.BookName)
+                </td>
+                <td style="text-align:center;">
+                    @Html.DisplayFor(modelItem => item.ChapterNumber)
+                </td>
+                <td style="text-align:center;">
+                    @Html.DisplayFor(modelItem => item.VerseNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VerseContent)
+                </td>
+                <td style="text-align:center;">
+                    @Html.DisplayFor(modelItem => item.Category1)
+                </td>
+                <td style="text-align:center;">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                @if(User.Identity.IsAuthenticated)
+                {
+                    <td style="width:10%; text-align:center;">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID })
+                        |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID })
+                    </td>
+                }     
+            </tr>
+        }
+    </table>
