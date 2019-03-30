@@ -6,17 +6,35 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BibleStudyGuide;
 using BibleStudyGuide.Controllers;
+using Moq;
+using BibleStudyGuide.Models;
 
 namespace BibleStudyGuide.Tests.Controllers
 {
     [TestClass]
     public class HomeControllerTest
     {
+        //moq data
+        HomeController controller;
+        List<Category> categories;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            categories = new List<Category>
+            {
+                new Category{CategoryID = 101, Category1 = "Invented Category #1"},
+                new Category{CategoryID = 102, Category1 = "Invented Category #2"},
+                new Category{CategoryID = 103, Category1 = "Invented Category #3"}
+            };
+        }
+
+
         [TestMethod]
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            controller = new HomeController();
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -29,7 +47,7 @@ namespace BibleStudyGuide.Tests.Controllers
         public void MyStudy2()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            controller = new HomeController();
 
             // Act
             ViewResult result = controller.MyStudy2() as ViewResult;
@@ -42,7 +60,7 @@ namespace BibleStudyGuide.Tests.Controllers
         public void Contact()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            controller = new HomeController();
 
             // Act
             ViewResult result = controller.Contact() as ViewResult;

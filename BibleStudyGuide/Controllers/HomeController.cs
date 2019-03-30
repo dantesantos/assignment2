@@ -16,7 +16,19 @@ namespace BibleStudyGuide.Controllers
     [RequireHttps]
     public class HomeController : Controller
     {
-        private DbBible db = new DbBible();
+        //private DbBible db = new DbBible();
+
+        IMockHomecs db;
+        //Constructors
+        //Default Constructor
+        public HomeController()
+        {
+            this.db = new IDataHome();
+        }
+        public HomeController(IDataHome mockDb)
+        {
+            this.db = mockDb;    
+        }
         public ActionResult Index()
         {            
             return View();
@@ -46,10 +58,10 @@ namespace BibleStudyGuide.Controllers
             return View();
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
         public ActionResult MyStudy2()
         {
@@ -127,8 +139,10 @@ namespace BibleStudyGuide.Controllers
                     Status = model.Status
                 };
 
-                db.Categories.Add(cat);
-                db.SaveChanges();
+                //db.Categories.Add(cat);
+                //db.SaveChanges();
+                db.Save();
+
             }
             catch (Exception e)
             {
@@ -195,7 +209,9 @@ namespace BibleStudyGuide.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Message message = db.Messages.Find(id);
+            //Message message = db.Messages.Find(id);
+            Message message = db.Messages.SingleOrDefault(m => m.MessageID == id);
+
             if (message == null)
             {
                 return HttpNotFound();
@@ -224,7 +240,8 @@ namespace BibleStudyGuide.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
+            //Category category = db.Categories.Find(id);
+            Category category = db.Categories.SingleOrDefault(c => c.CategoryID == id);
             if (category == null)
             {
                 return HttpNotFound();
@@ -236,7 +253,8 @@ namespace BibleStudyGuide.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmedVerse(int id)
         {
-            Category category = db.Categories.Find(id);
+            //Category category = db.Categories.Find(id);
+            Category category = db.Categories.SingleOrDefault(c => c.CategoryID == id);
             db.Categories.Remove(category);
             db.SaveChanges();
             return RedirectToAction("MyStudy2");
@@ -250,7 +268,8 @@ namespace BibleStudyGuide.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Message message = db.Messages.Find(id);
+            //Message message = db.Messages.Find(id);
+            Message message = db.Messages.SingleOrDefault(m => m.MessageID == id);
             if (message == null)
             {
                 return HttpNotFound();
@@ -262,7 +281,8 @@ namespace BibleStudyGuide.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmedMessage(int id)
         {
-            Message message = db.Messages.Find(id);
+            //Message message = db.Messages.Find(id);
+            Message message = db.Messages.SingleOrDefault(m => m.MessageID == id);
             db.Messages.Remove(message);
             db.SaveChanges();
             return RedirectToAction("MyStudy2");

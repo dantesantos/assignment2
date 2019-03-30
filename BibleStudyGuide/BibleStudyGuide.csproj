@@ -198,7 +198,9 @@
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Data.cs" />
     <Compile Include="Models\DbBible.cs" />
+    <Compile Include="Models\IDataHome.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IMockHomecs.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ListsViews.cs" />
     <Compile Include="Models\MasterClass.cs" />
