@@ -141,7 +141,7 @@ namespace BibleStudyGuide.Controllers
 
                 //db.Categories.Add(cat);
                 //db.SaveChanges();
-                db.Save();
+                db.Save(cat);
 
             }
             catch (Exception e)
@@ -183,8 +183,9 @@ namespace BibleStudyGuide.Controllers
                     Status = model.Status
                 };
 
-                db.Messages.Add(message);
-                db.SaveChanges();
+                //db.Messages.Add(message);
+                //db.SaveChanges();
+                db.Save(message);
 
             }
             catch (Exception e)
