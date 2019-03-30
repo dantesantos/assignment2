@@ -18,5 +18,10 @@ namespace BibleStudyGuide.Models
         IQueryable<Category> Categories { get; }
         Category Save(Category category);
         void Delete(Category category);
+
+        //Authors
+        IQueryable<Author> Authors { get; }
+        //Author Save(Author author);
+        //void Delete(Author author);
     }
 }

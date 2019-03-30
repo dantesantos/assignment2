@@ -195,13 +195,13 @@ namespace BibleStudyGuide.Controllers
             return Redirect("MyStudy2");
         }
 
-        public ActionResult StudyView(string AuthorName, int chapterNumber) {
-            //ViewBag.AuthorName = AuthorName;
-            //ViewBag.chapterNumber = chapterNumber;
+        //public ActionResult StudyView(string AuthorName, int chapterNumber) {
+        //    //ViewBag.AuthorName = AuthorName;
+        //    //ViewBag.chapterNumber = chapterNumber;
 
-            return View();
+        //    return View();
 
-        }
+        //}
 
         
         ActionResult Edit(int? id)
@@ -227,15 +227,16 @@ namespace BibleStudyGuide.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(message).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(message).State = EntityState.Modified;
+                //db.SaveChanges();
+                db.Save(message);
                 return RedirectToAction("MyStudy2");
             }
             return View(message);
         }
 
 
-        public ActionResult DeleteVerse(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -250,14 +251,15 @@ namespace BibleStudyGuide.Controllers
             return View(category);
         }
 
-        [HttpPost, ActionName("DeleteVerse")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmedVerse(int id)
         {
             //Category category = db.Categories.Find(id);
             Category category = db.Categories.SingleOrDefault(c => c.CategoryID == id);
-            db.Categories.Remove(category);
-            db.SaveChanges();
+            //db.Categories.Remove(category);
+            //db.SaveChanges();
+            db.Delete(category);
             return RedirectToAction("MyStudy2");
         }
 
@@ -284,8 +286,9 @@ namespace BibleStudyGuide.Controllers
         {
             //Message message = db.Messages.Find(id);
             Message message = db.Messages.SingleOrDefault(m => m.MessageID == id);
-            db.Messages.Remove(message);
-            db.SaveChanges();
+            //db.Messages.Remove(message);
+            //db.SaveChanges();
+            db.Delete(message);
             return RedirectToAction("MyStudy2");
         }
     }
