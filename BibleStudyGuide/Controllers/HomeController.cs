@@ -25,7 +25,7 @@ namespace BibleStudyGuide.Controllers
         {
             this.db = new IDataHome();
         }
-        public HomeController(IDataHome mockDb)
+        public HomeController(IMockHomecs mockDb)
         {
             this.db = mockDb;    
         }
@@ -66,6 +66,7 @@ namespace BibleStudyGuide.Controllers
         public ActionResult MyStudy2()
         {
             var categories = db.Categories.OrderBy(c => c.Date).ToList();
+
             return View(categories);
         }
 

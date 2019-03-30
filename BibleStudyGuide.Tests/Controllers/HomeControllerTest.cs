@@ -17,6 +17,7 @@ namespace BibleStudyGuide.Tests.Controllers
         //moq data
         HomeController controller;
         List<Category> categories;
+        Mock<IMockHomecs> mock;
 
         [TestInitialize]
         public void TestInitialize()
@@ -27,6 +28,13 @@ namespace BibleStudyGuide.Tests.Controllers
                 new Category{CategoryID = 102, Category1 = "Invented Category #2"},
                 new Category{CategoryID = 103, Category1 = "Invented Category #3"}
             };
+
+            // Set up and populate mock object to inject into the controller
+            mock = new Mock<IMockHomecs>();
+            mock.Setup(c => c.Categories).Returns(categories.AsQueryable());
+
+            //Initialize the controller and inject the mock object
+            controller = new HomeController(mock.Object);
         }
 
 
@@ -34,7 +42,7 @@ namespace BibleStudyGuide.Tests.Controllers
         public void Index()
         {
             // Arrange
-            controller = new HomeController();
+            //controller = new HomeController(); =====>>>>Inside Initialize!!
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -47,13 +55,15 @@ namespace BibleStudyGuide.Tests.Controllers
         public void MyStudy2()
         {
             // Arrange
-            controller = new HomeController();
+            //controller = new HomeController(); =====>>>>Inside Initialize!!
 
             // Act
-            ViewResult result = controller.MyStudy2() as ViewResult;
+            //ViewResult result = controller.MyStudy2() as ViewResult;
+            var results = (List<Category>)((ViewResult)controller.MyStudy2()).Model;
 
             // Assert
-            Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            //Assert.AreEqual("MyStudy2", result.ViewBag.Message);
+            CollectionAssert.AreEqual(categories.OrderBy(c => c.Date).ToList(), results);
         }
 
         [TestMethod]
