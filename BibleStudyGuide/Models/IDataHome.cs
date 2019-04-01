@@ -61,28 +61,14 @@ namespace BibleStudyGuide.Models
         }
 
         //Authors
-
         public IQueryable<Author> Authors { get { return db.Authors; } }
 
-        //public void Delete(Author author)
-        //{
-        //    db.Authors.Remove(author);
-        //    db.SaveChanges();
-        //}
+        //public IQueryable<List<Author>> GetAllAuthors { get; }
 
-        //public Author Save(Author author)
-        //{
-        //    if (author.AuthorID == 0)
-        //    {
-        //        db.Authors.Add(author);
-        //    }
-        //    else
-        //    {
-        //        db.Entry(author).State = System.Data.Entity.EntityState.Modified;
-        //    }
 
-        //    db.SaveChanges();
-        //    return author;
-        //}
+
+
+
+
     }
 }

@@ -12,6 +12,7 @@ namespace BibleStudyGuide.Models
         IQueryable<Message> Messages { get; }
         Message Save(Message message);
         void Delete(Message message);
+        //void MyMessages(Message message);
 
 
         //Categories
@@ -21,7 +22,7 @@ namespace BibleStudyGuide.Models
 
         //Authors
         IQueryable<Author> Authors { get; }
-        //Author Save(Author author);
-        //void Delete(Author author);
+        
+
     }
 }

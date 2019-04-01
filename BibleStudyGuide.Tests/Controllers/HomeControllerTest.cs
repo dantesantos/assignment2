@@ -17,6 +17,9 @@ namespace BibleStudyGuide.Tests.Controllers
         //moq data
         HomeController controller;
         List<Category> categories;
+        List<Message> messages;
+        List<Author> authors;
+        //List<ListsViews> listsViews;
         Mock<IMockHomecs> mock;
 
         [TestInitialize]
@@ -33,17 +36,38 @@ namespace BibleStudyGuide.Tests.Controllers
             mock = new Mock<IMockHomecs>();
             mock.Setup(c => c.Categories).Returns(categories.AsQueryable());
 
+
+            messages = new List<Message>
+            {
+                new Message { MessageID = 201, Message1 = "Invented Message #1" },
+                new Message { MessageID = 202, Message1 = "Invented Message #2" },
+                new Message { MessageID = 203, Message1 = "Invented Message #3" }
+            };
+
+            // Set up and populate mock object to inject into the controller
+            //mock = new Mock<IMockHomecs>();
+            mock.Setup(c => c.Messages).Returns(messages.AsQueryable());
+
+            authors = new List<Author>
+            {
+                new Author { AuthorID = 301, AuthorName = "Invented Author #1" },
+                new Author { AuthorID = 302, AuthorName = "Invented Author #2" },
+                new Author { AuthorID = 303, AuthorName = "Invented Author #3" }
+            };
+
+            // Set up and populate mock object to inject into the controller
+            //mock = new Mock<IMockHomecs>();
+            mock.Setup(c => c.Authors).Returns(authors.AsQueryable());
+
+
             //Initialize the controller and inject the mock object
             controller = new HomeController(mock.Object);
         }
 
 
         [TestMethod]
-        public void Index()
+        public void IndexLoading()
         {
-            // Arrange
-            //controller = new HomeController(); =====>>>>Inside Initialize!!
-
             // Act
             ViewResult result = controller.Index() as ViewResult;
 
@@ -52,18 +76,41 @@ namespace BibleStudyGuide.Tests.Controllers
         }
 
         [TestMethod]
-        public void MyStudy2()
+        public void TestTheListInMyStudy2()
         {
-            // Arrange
-            //controller = new HomeController(); =====>>>>Inside Initialize!!
-
             // Act
-            //ViewResult result = controller.MyStudy2() as ViewResult;
             var results = (List<Category>)((ViewResult)controller.MyStudy2()).Model;
 
             // Assert
             //Assert.AreEqual("MyStudy2", result.ViewBag.Message);
             CollectionAssert.AreEqual(categories.OrderBy(c => c.Date).ToList(), results);
+        }
+
+        [TestMethod]
+        public void TestMyStudy2View()
+        {
+            // act
+            ViewResult result = controller.MyStudy2() as ViewResult;
+            // assert
+            Assert.AreEqual("MyStudy2", result.ViewName);
+        }
+
+        [TestMethod]
+        public void TestTheListInMyMessages()
+        {
+            //Act
+            var resultsMessages = (List<Message>)((ViewResult)controller.MyMessages()).Model;
+            //Assert
+            CollectionAssert.AreEqual(messages.OrderBy(c => c.Date).ToList(), resultsMessages);
+        }
+
+        [TestMethod]
+        public void TestMyMessageView()
+        {
+            // act
+            ViewResult result = controller.MyMessages() as ViewResult;
+            // assert
+            Assert.AreEqual("MyMessages", result.ViewName);
         }
 
         [TestMethod]
@@ -77,6 +124,7 @@ namespace BibleStudyGuide.Tests.Controllers
 
             // Assert
             Assert.IsNotNull(result);
-        }
+        }      
+        
     }
 }

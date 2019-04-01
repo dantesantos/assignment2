@@ -29,28 +29,14 @@ namespace BibleStudyGuide.Controllers
         {
             this.db = mockDb;    
         }
+
+        //test done
         public ActionResult Index()
         {            
             return View();
         }
-        public ActionResult MyStudy(string AuthorName)
-        {
-            ViewBag.AuthorName = AuthorName;
-            
-            Data myData = new Data();
-            ListsViews myList = new ListsViews
-            {
-                AllAuthors = myData.GetAllAuthors(),
-                AllBooks = myData.GetAllBooks(),
-                AllChapters = myData.GetAllChapters(),
-                AllVerses = myData.GetAllVerses(),
-                AllMessages = myData.GetAllMessages(),
-                AllVerseCategories = myData.GetAllVerseCategories()
-            };
-
-            return View(myList);
-        }
-
+        
+        //test done
         public ActionResult Contact()
         {
             ViewBag.Message = "Dante Coelho Cerqueira Santos";
@@ -63,34 +49,26 @@ namespace BibleStudyGuide.Controllers
         //    return View();
         //}
 
+        //test done
         public ActionResult MyStudy2()
         {
             var categories = db.Categories.OrderBy(c => c.Date).ToList();
-
-            return View(categories);
+            return View("MyStudy2", categories);
         }
 
+        //test done
         public ActionResult MyMessages()
         {
             var messages = db.Messages.OrderBy(c => c.Date).ToList();
-            return View(messages);
+            return View("MyMessages", messages);
         }
 
-        public ActionResult AuthorsIndex(string AuthorName)
-        {
-            ViewBag.AuthorName = AuthorName;
-            var authors = db.Authors.ToList();
-            return View(authors);
-        }
         
-            public ActionResult ListsViews(string AuthorName, int chapterNumber)
+        public ActionResult ListsViews(string AuthorName, int chapterNumber)
         {
             ViewBag.AuthorName = AuthorName;
             ViewBag.chapterNumber = chapterNumber;
             
-            
-            
-
             Data myData = new Data();
             ListsViews myList = new ListsViews
             {
@@ -106,14 +84,11 @@ namespace BibleStudyGuide.Controllers
         }
 
         [HttpPost]
-        public ActionResult ListsViews(ListsViews model, /*string verseCont,*/ string AuthorName, int chapterNumber)
+        public ActionResult ListsViews(ListsViews model, string AuthorName, int chapterNumber)
         {
             ViewBag.AuthorName = AuthorName;
             ViewBag.chapterNumber = chapterNumber;
-            //ViewBag.status = status;
-            //ViewBag.category = category;
-
-
+            
             Data myData = new Data();
             ListsViews myList = new ListsViews
             {
@@ -155,12 +130,11 @@ namespace BibleStudyGuide.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveMessage(ListsViews model, string AuthorName, int chapterNumber/*, string status, string category*/)
+        public ActionResult SaveMessage(ListsViews model, string AuthorName, int chapterNumber)
         {
             ViewBag.AuthorName = AuthorName;
             ViewBag.chapterNumber = chapterNumber;
-            //ViewBag.Status = status;
-
+            
             Data myData = new Data();
             ListsViews myList = new ListsViews
             {
@@ -195,14 +169,6 @@ namespace BibleStudyGuide.Controllers
             }
             return Redirect("MyStudy2");
         }
-
-        //public ActionResult StudyView(string AuthorName, int chapterNumber) {
-        //    //ViewBag.AuthorName = AuthorName;
-        //    //ViewBag.chapterNumber = chapterNumber;
-
-        //    return View();
-
-        //}
 
         
         ActionResult Edit(int? id)
