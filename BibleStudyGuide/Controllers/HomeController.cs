@@ -33,7 +33,7 @@ namespace BibleStudyGuide.Controllers
         //test done
         public ActionResult Index()
         {            
-            return View();
+            return View("Index");
         }
         
         //test done
@@ -41,7 +41,7 @@ namespace BibleStudyGuide.Controllers
         {
             ViewBag.Message = "Dante Coelho Cerqueira Santos";
 
-            return View();
+            return View("Contact");
         }
 
         //public ActionResult Create()
@@ -170,7 +170,7 @@ namespace BibleStudyGuide.Controllers
             return Redirect("MyStudy2");
         }
 
-        
+        //GET
         ActionResult Edit(int? id)
         {
             if (id == null)
@@ -185,9 +185,10 @@ namespace BibleStudyGuide.Controllers
                 return HttpNotFound();
             }
             ViewBag.MessageId = new SelectList(db.Messages, "MessageId", "Message1", message.MessageID);
-            return View(message);
+            return View("Edit", message);
         }
 
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MessageId")] Message message)
@@ -199,10 +200,11 @@ namespace BibleStudyGuide.Controllers
                 db.Save(message);
                 return RedirectToAction("MyStudy2");
             }
-            return View(message);
+            return View("Edit",message);
         }
 
-
+        //GET
+        //This method delete the verse inside MyStudy2
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -215,9 +217,10 @@ namespace BibleStudyGuide.Controllers
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View("Delete", category);
         }
 
+        //POST
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmedVerse(int id)
@@ -230,8 +233,8 @@ namespace BibleStudyGuide.Controllers
             return RedirectToAction("MyStudy2");
         }
 
-
-
+        //GET
+        //This method delete the message inside MyMessage
         public ActionResult DeleteMessage(int? id)
         {
             if (id == null)
@@ -244,9 +247,10 @@ namespace BibleStudyGuide.Controllers
             {
                 return HttpNotFound();
             }
-            return View(message);
+            return View("DeleteMessage", message);
         }
 
+        //POST
         [HttpPost, ActionName("DeleteMessage")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmedMessage(int id)
@@ -256,7 +260,7 @@ namespace BibleStudyGuide.Controllers
             //db.Messages.Remove(message);
             //db.SaveChanges();
             db.Delete(message);
-            return RedirectToAction("MyStudy2");
+            return RedirectToAction("MyMessages");
         }
     }
 }

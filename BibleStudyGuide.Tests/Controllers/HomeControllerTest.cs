@@ -45,18 +45,16 @@ namespace BibleStudyGuide.Tests.Controllers
             };
 
             // Set up and populate mock object to inject into the controller
-            //mock = new Mock<IMockHomecs>();
             mock.Setup(c => c.Messages).Returns(messages.AsQueryable());
 
             authors = new List<Author>
             {
-                new Author { AuthorID = 301, AuthorName = "Invented Author #1" },
-                new Author { AuthorID = 302, AuthorName = "Invented Author #2" },
-                new Author { AuthorID = 303, AuthorName = "Invented Author #3" }
+                new Author { AuthorID = 301, AuthorName = "Invented name #1" },
+                new Author { AuthorID = 302, AuthorName = "Invented name #2" },
+                new Author { AuthorID = 303, AuthorName = "Invented name #3" }
             };
 
             // Set up and populate mock object to inject into the controller
-            //mock = new Mock<IMockHomecs>();
             mock.Setup(c => c.Authors).Returns(authors.AsQueryable());
 
 
@@ -66,13 +64,39 @@ namespace BibleStudyGuide.Tests.Controllers
 
 
         [TestMethod]
-        public void IndexLoading()
+        public void TestIndexLoading()
         {
             // Act
             ViewResult result = controller.Index() as ViewResult;
-
             // Assert
             Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestIndexView()
+        {
+            // act
+            ViewResult result = controller.Index() as ViewResult;
+            // assert
+            Assert.AreEqual("Index", result.ViewName);
+        }
+
+        [TestMethod]
+        public void TestContactLoading()
+        {
+            // Act
+            ViewResult result = controller.Contact() as ViewResult;
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestContactView()
+        {
+            // act
+            ViewResult result = controller.Contact() as ViewResult;
+            // assert
+            Assert.AreEqual("Contact", result.ViewName);
         }
 
         [TestMethod]
@@ -80,9 +104,7 @@ namespace BibleStudyGuide.Tests.Controllers
         {
             // Act
             var results = (List<Category>)((ViewResult)controller.MyStudy2()).Model;
-
             // Assert
-            //Assert.AreEqual("MyStudy2", result.ViewBag.Message);
             CollectionAssert.AreEqual(categories.OrderBy(c => c.Date).ToList(), results);
         }
 
@@ -111,20 +133,47 @@ namespace BibleStudyGuide.Tests.Controllers
             ViewResult result = controller.MyMessages() as ViewResult;
             // assert
             Assert.AreEqual("MyMessages", result.ViewName);
+        }       
+
+        [TestMethod]
+        public void TestEditMessageView()
+        {
+            // act
+            RedirectToRouteResult result = controller.Edit(messages[0]) as RedirectToRouteResult;
+            // assert
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
-        public void Contact()
+        public void TestEditMessageViewName()
         {
-            // Arrange
-            controller = new HomeController();
+            // act
+            RedirectToRouteResult result = controller.Edit(messages[0]) as RedirectToRouteResult;
 
-            // Act
-            ViewResult result = controller.Contact() as ViewResult;
+            // assert
+            Assert.AreEqual("MyStudy2", result.RouteValues["action"]);
+        }
 
-            // Assert
-            Assert.IsNotNull(result);
-        }      
-        
+        [TestMethod]
+        public void TestDeleteCategoryView()
+        {
+            ViewResult result = controller.Delete(101) as ViewResult;
+            // assert
+            Assert.AreEqual("Delete", result.ViewName);
+        }
+
+        [TestMethod]
+        public void TestDeleteMessageView()
+        {
+            ViewResult result = controller.DeleteMessage(201) as ViewResult;
+            // assert
+            Assert.AreEqual("DeleteMessage", result.ViewName);
+        }
+
+
+
+
+
+
     }
 }
