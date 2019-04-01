@@ -171,7 +171,7 @@ namespace BibleStudyGuide.Controllers
         }
 
         //GET
-        ActionResult Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -191,14 +191,14 @@ namespace BibleStudyGuide.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MessageId")] Message message)
+        public ActionResult Edit([Bind(Include = "MessageId, Message1, AuthorName, BookName, ChapterNumber, Date")] Message message)
         {
             if (ModelState.IsValid)
             {
                 //db.Entry(message).State = EntityState.Modified;
                 //db.SaveChanges();
                 db.Save(message);
-                return RedirectToAction("MyStudy2");
+                return RedirectToAction("MyMessages");
             }
             return View("Edit",message);
         }
