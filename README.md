@@ -14,4 +14,4 @@ to send the content of the field to the database.
 
 Link to the application:
 https://biblestudyguide.azurewebsites.net/
-(Local use of the database)
+(Database needs to be accessed localy)
