@@ -12,3 +12,6 @@ to send the content of the field to the database.
 - The content of each lessons learned is private
 - Links to edit or delete are also private.
 
+Link to the application:
+https://biblestudyguide.azurewebsites.net/
+(Local use of the database)
