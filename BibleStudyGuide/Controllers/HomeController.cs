@@ -198,7 +198,7 @@ namespace BibleStudyGuide.Controllers
                 //db.Entry(message).State = EntityState.Modified;
                 //db.SaveChanges();
                 db.Save(message);
-                return RedirectToAction("MyMessages");
+                return RedirectToAction("MyStudy2");
             }
             return View("Edit",message);
         }

@@ -45,6 +45,7 @@ namespace BibleStudyGuide.Models
             db.SaveChanges();
         }
 
+
         public Message Save(Message message)
         {
             if (message.MessageID == 0)

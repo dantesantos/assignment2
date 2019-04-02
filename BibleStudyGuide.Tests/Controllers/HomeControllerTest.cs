@@ -143,17 +143,55 @@ namespace BibleStudyGuide.Tests.Controllers
             // assert
             Assert.IsNotNull(result);
         }
+        
+        [TestMethod]
+        public void TestEditWhenIsNotNull()
+        {
+            //act
+            var result = controller.Edit(-1);
+            //Assert
+            Assert.IsNotNull(result);
+        }
 
         [TestMethod]
-        public void TestEditMessageViewName()
+        public void TestEditHttpNotFound()
+        {
+            //Act
+            HttpNotFoundResult result = controller.Edit(1) as HttpNotFoundResult;
+            //Assert
+            Assert.AreEqual(404, result.StatusCode);
+        }
+        
+        [TestMethod]
+        public void TestPostEditMessageViewName()
         {
             // act
             RedirectToRouteResult result = controller.Edit(messages[0]) as RedirectToRouteResult;
-
             // assert
             Assert.AreEqual("MyStudy2", result.RouteValues["action"]);
         }
 
+        [TestMethod]
+        public void TestEditPostInvalidModel()
+        {
+            controller.ModelState.AddModelError("Error message:", "An error has ocurred.");
+            // act
+            ViewResult result = controller.Edit(201) as ViewResult;
+            // assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestEditPostInvalidModelName()
+        {
+            controller.ModelState.AddModelError("Error message:", "An error has ocurred.");
+            // act
+            ViewResult result = controller.Edit(201) as ViewResult;
+            // assert
+            Assert.AreEqual("Edit", result.ViewName);
+        }       
+
+        //delete verse
         [TestMethod]
         public void TestDeleteCategoryView()
         {
@@ -162,6 +200,29 @@ namespace BibleStudyGuide.Tests.Controllers
             Assert.AreEqual("Delete", result.ViewName);
         }
 
+        //delete verse
+        [TestMethod]
+        public void TestDeleteHttpNotFound()
+        {
+            //Act
+            HttpNotFoundResult result = controller.Delete(-9) as HttpNotFoundResult;
+            //Assert
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        //delete verse
+        [TestMethod]
+        public void TestDeleteConfirmedVerseValidIdRedirect()
+        {
+            // act
+            RedirectToRouteResult result = controller.DeleteConfirmedVerse(101) as RedirectToRouteResult;
+            var resultlist = result.RouteValues.ToList();
+            // assert
+            Assert.AreEqual("MyStudy2", resultlist[0].Value);
+
+        }
+
+        //delete message
         [TestMethod]
         public void TestDeleteMessageView()
         {
@@ -170,10 +231,26 @@ namespace BibleStudyGuide.Tests.Controllers
             Assert.AreEqual("DeleteMessage", result.ViewName);
         }
 
+        //delete message
+        [TestMethod]
+        public void TestDeleteMessageHttpNotFound()
+        {
+            //Act
+            HttpNotFoundResult result = controller.DeleteMessage(-9) as HttpNotFoundResult;
+            //Assert
+            Assert.AreEqual(404, result.StatusCode);
+        }
+        
+        //delete message
+        [TestMethod]
+        public void TestDeleteConfirmedMessageValidIdRedirect()
+        {
+            // act
+            RedirectToRouteResult result = controller.DeleteConfirmedMessage(201) as RedirectToRouteResult;
+            var resultlist = result.RouteValues.ToList();
+            // assert
+            Assert.AreEqual("MyMessages", resultlist[0].Value);
 
-
-
-
-
+        }
     }
 }
